@@ -1,0 +1,35 @@
+{
+  "name": "angular-dual-multi-select",
+  "version": "1.0.0",
+  "description": "angular dual-multi-select",
+  "main": "dist/angular-dual-multi-select.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hxlniada/angular-dual-multi-select.git"
+  },
+  "keywords": [
+    "angular",
+    "dual-multi-select"
+  ],
+  "author": "huangxueliang@baidu.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hxlniada/angular-dual-multi-select/issues"
+  },
+  "homepage": "https://github.com/hxlniada/angular-dual-multi-select",
+  "devDependencies": {
+    "event-stream": "^3.3.1",
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-less": "^3.0.3",
+    "gulp-minify-css": "^1.1.1",
+    "gulp-ng-annotate": "^0.5.3",
+    "gulp-ng-template": "^0.2.1",
+    "gulp-order": "^1.1.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.2.0"
+  }
+}
