@@ -1,3 +1,7 @@
+/**
+ * @file gulp file
+ * @author 862802759@qq.com
+ */
 var gulp = require('gulp');
 var ngTemplate = require('gulp-ng-template');
 var concat = require('gulp-concat');
@@ -37,5 +41,5 @@ function createTemplate() {
     .pipe(ngTemplate({
         moduleName: 'DualMultiSelect',
         filePath: './templates.js'
-    })); 
+    }));
 }

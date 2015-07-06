@@ -1,12 +1,15 @@
 {
   "name": "angular-dual-multi-select",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/hxlniada/angular-dual-multi-select",
   "authors": [
     "Xueliang Huang <862802759@qq.com>"
   ],
   "description": "angular dual-multi-select",
-  "main": "dist/angular-dual-multi-select.min.js",
+  "main": [
+    "dist/angular-dual-multi-select.min.js",
+    "dist/angular-dual-multi-select.min.css"
+  ],
   "moduleType": [
     "globals"
   ],
