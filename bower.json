@@ -27,6 +27,6 @@
   ],
   "dependencies": {
     "angular": "~1.4.1",
-    "angular-tree-view": "~0.0.3"
+    "angular-tree-view": "~1.0.2"
   }
 }
