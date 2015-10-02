@@ -8,15 +8,14 @@
             </div>
             <div class="pool">
                 <tree-view
-                input-model="dataPasser"
-                ng-model="ngModel"
-                recursion-check="recursionCheck"
-                output-duplicate="outputDuplicate"
-                output-all-info="outputAllInfo"
-                recursion-expand="recursionExpand"
-                options="options"
-                transfer-data="true"
-                filter-model="searchLeft"></tree-view>
+                    input-model="inputModel"
+                    ng-model="ngModel"
+                    recursion-check="recursionCheck"
+                    output-duplicate="outputDuplicate"
+                    output-all-info="outputAllInfo"
+                    options="options"
+                    hash-object="hashObject"
+                    filter-model="searchLeft"></tree-view>
             </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6"> 
@@ -27,9 +26,9 @@
             </div>
             <div class="pool">
                 <ul>
-                    <li ng-repeat="item in helperArray | filter:searchRight" ng-show="isShow(item.id)"> 
-                        <a ng-click="deSelect(item.id)">
-                            {{ item.text }}
+                    <li ng-repeat="item in ngModel | filter:searchRight"> 
+                        <a ng-click="deSelect(item)">
+                            {{ getDisplayName(item) }}
                         </a>
                     </li>
                 </ul> 

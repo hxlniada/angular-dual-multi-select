@@ -6,21 +6,19 @@
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="./deps/angular-tree-view.min.css">
     <link rel="stylesheet" href="./dist/angular-dual-multi-select.min.css">
-    <script src="http://cdn.bootcss.com/angular.js/1.4.2/angular.min.js"></script>
-    <script src="./deps/angular-recursion.min.js"></script>
+    <script src="http://cdn.bootcss.com/angular.js/1.4.5/angular.min.js"></script>
     <script src="./deps/angular-tree-view.min.js"></script>
     <script src="./dist/angular-dual-multi-select.js"></script>
 </head>
 <body>
     <div ng-if="test">
         <dualmultiselect
-        ng-model="form.value"
-        input-model="test"
-        recursion-check="true"
-        output-all-info="false"
-        output-duplicate="true"
-        recursion-expand="false"
-        options="{displayProperty: 'dirName'}"></dualmultiselect>
+            ng-model="form.value"
+            input-model="test"
+            recursion-check="true"
+            output-all-info="false"
+            output-duplicate="true"
+            options="{displayProperty: 'dirName'}"></dualmultiselect>
     </div>
     <button ng-click="testClick()">start</button>
     {{form.value}}

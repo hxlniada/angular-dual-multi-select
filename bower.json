@@ -26,7 +26,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.1",
+    "angular": "~1.4.6",
     "angular-tree-view": "~1.0.1"
   }
 }

@@ -2,8 +2,8 @@
  * @file 两个选择框多级选择组建
  * @author 862802759@qq.com
  */
-angular.module('DualMultiSelect', ['TreeView']).directive('dualmultiselect',
-function ($q, $filter) {
+angular.module('DualMultiSelect', ['TreeView'])
+.directive('dualmultiselect', function () {
     return {
         restrict: 'AE',
         scope: {
@@ -13,151 +13,94 @@ function ($q, $filter) {
             recursionCheck: '=',
             outputAllInfo: '=',
             outputDuplicate: '=',
-            recursionExpand: '=',
             options: '='
         },
         controller: function ($scope) {
-            var id = 0;
+
             $scope.options = $scope.options || {};
             $scope.valueProperty = $scope.options.valueProperty || 'id';
             $scope.displayProperty = $scope.options.displayProperty || 'text';
-            $scope.childrenProperty = $scope.options.childrenProperty || 'children';
+            $scope.children = $scope.options.childrenProperty || 'children';
             $scope.labelSelected = $scope.options.labelSelected || '已选择的内容';
             $scope.labelAll = $scope.options.labelAll || '待选择内容';
             $scope.buttonCheckAll = $scope.options.buttonCheckAll || '全选';
             $scope.buttonDeselectAll = $scope.options.buttonDeselectAll || '全不选';
 
+            $scope.hashObject = {};
+
             var utils = {
-                find: function (source, target) {
-                    if (angular.isObject(target)) {
-                        for (var i = 0; i < source.length; i++) {
-                            if (target.body[$scope.valueProperty] === source[i].body[$scope.valueProperty]) {
-                                return i;
-                            }
-                        }
-                        return -1;
+                getParentItem: function (data) {
+                    if ($scope.outputAllInfo) {
+                        return data.$treeView.parentData;
                     }
-                    return source.indexOf(target);
+                    if ($scope.hashObject[data].$treeView.parentData) {
+                        return $scope.hashObject[data].$treeView.parentData[$scope.valueProperty];
+                    }
+                    return undefined;
+                },
+                unwrap: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        result[i] = result[i][$scope.valueProperty];
+                    }
                 }
             };
 
-            function initDatas() {
-                var deferred = $q.defer();
-                if (angular.isFunction($scope.inputModel.then)) {
-                    $scope.inputModel.then(function (response) {
-                        deferred.resolve({
-                            data: response.data
-                        });
-                    });
-                }
-                else {
-                    deferred.resolve({
-                        data: $scope.inputModel
-                    });
-                }
-
-                deferred.promise.then(function (response) {
-                    $scope.items = angular.copy(response.data);
-                    var helpers = createHelpers($scope.items);
-                    $scope.rootMap = helpers.rootMap;
-                    $scope.helperArray = helpers.arr;
-                });
-
-                return deferred.promise;
-            }
-
-            function createHelpers(value) {
-                var rootMap = [];
-                var arr = [];
-
-                function createHelper(value, parent) {
-                    if (!angular.isArray(value)) {
-                        return;
-                    }
-
-                    for (var i = 0; i < value.length; i++) {
-                        if (!value[i].hasOwnProperty($scope.valueProperty)) {
-                            value[i][$scope.valueProperty] = id++;
-                        }
-                        var item = {
-                            body: value[i],
-                            text: value[i][$scope.displayProperty],
-                            id: value[i][$scope.valueProperty]
-                        };
-                        arr.push(item);
-                        if (!parent) {
-                            rootMap.push(item);
-                        }
-                        if (value[i][$scope.childrenProperty] && value[i][$scope.childrenProperty].length) {
-                            createHelper(value[i][$scope.childrenProperty], value[i]);
-                        }
-                    }
-                }
-
-                createHelper(value);
-
-                return {
-                    rootMap: rootMap,
-                    arr: arr
-                };
-            }
-
             $scope.selectAll = function () {
-                var result = [];
-
-                angular.forEach($scope.outputDuplicate ? $scope.helperArray : $scope.rootMap, function (item) {
+                $scope.ngModel = [];
+                angular.forEach($scope.hashObject, function (item) {
                     if ($scope.outputAllInfo) {
-                        result.push(item);
+                        $scope.ngModel.push(item);
                     }
                     else {
-                        result.push(item.body[$scope.valueProperty]);
+                        $scope.ngModel.push(item[$scope.valueProperty]);
                     }
                 });
-
-                if (result.length === 0) {
-                    $scope.ngModel = undefined;
-                }
-                else {
-                    $scope.ngModel = result;
-                }
             };
 
             $scope.deSelectAll = function () {
-                $scope.ngModel = undefined;
+                $scope.ngModel = [];
             };
-            $scope.deSelect = function (id) {
-                var result = angular.copy($scope.ngModel);
-                var itemTofind = id;
+            $scope.deSelect = function (item) {
+                var parentItem;
+                if ($scope.recursionCheck) {
+                    parentItem = utils.getParentItem(item);
+                    if (angular.isDefined(parentItem) && $scope.ngModel.indexOf(parentItem) !== -1) {
+                        $scope.ngModel.splice($scope.ngModel.indexOf(parentItem), 1);
+                    }
+                    // 递归去掉子层
+                    var currentObj = $scope.outputAllInfo ? item : $scope.hashObject[item];
+                    if (currentObj[$scope.children] && currentObj[$scope.children].length) {
+                        // 判断ngModel中有没有子层
+                        // !outputDuplicate就没有
+                        var firstChild = $scope.outputAllInfo
+                            ? currentObj[$scope.children][0]
+                            : currentObj[$scope.children][0][$scope.valueProperty];
+                        if ($scope.ngModel.indexOf(firstChild) !== -1) {
+                            var stack = [];
+                            for (var i = 0; i < currentObj[$scope.children].length; i++) {
+                                stack.push(currentObj[$scope.children][i]);
+                            }
+                            while (stack.length) {
+                                currentObj = stack.pop();
+                                var currentItem = $scope.outputAllInfo ? currentObj : currentObj[$scope.valueProperty];
+                                $scope.ngModel.splice($scope.ngModel.indexOf(currentItem), 1);
+                                if (currentObj[$scope.children] && currentObj[$scope.children].length) {
+                                    for (i = 0; i < currentObj[$scope.children].length; i++) {
+                                        stack.push(currentObj[$scope.children][i]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                $scope.ngModel.splice($scope.ngModel.indexOf(item), 1);
+            };
+            $scope.getDisplayName = function (item) {
                 if ($scope.outputAllInfo) {
-                    itemTofind = {body: {}};
-                    itemTofind.body[$scope.valueProperty] = id;
+                    return item[$scope.displayProperty];
                 }
-
-                var index = utils.find(result, itemTofind);
-                result.splice(index, 1);
-                if (result.length === 0) {
-                    $scope.ngModel = undefined;
-                }
-                else {
-                    $scope.ngModel = result;
-                }
+                return $scope.hashObject[item][$scope.displayProperty];
             };
-            $scope.isShow = function (id) {
-                if (!angular.isArray($scope.ngModel)) {
-                    return false;
-                }
-                var itemTofind;
-                if ($scope.outputAllInfo) {
-                    itemTofind = {body: {}};
-                    itemTofind.body[$scope.valueProperty] = id;
-                }
-                else {
-                    itemTofind = id;
-                }
-                return utils.find($scope.ngModel, itemTofind) !== -1;
-            };
-
-            $scope.dataPasser = initDatas();
         },
         templateUrl: 'angular-dual-multi-select.tpl'
     };
