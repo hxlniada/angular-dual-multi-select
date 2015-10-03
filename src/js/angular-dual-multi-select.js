@@ -95,6 +95,11 @@ angular.module('DualMultiSelect', ['TreeView'])
                 }
                 $scope.ngModel.splice($scope.ngModel.indexOf(item), 1);
             };
+
+            $scope.compareName = function (actual, expected) {
+                return $scope.getDisplayName(actual).toString().indexOf(expected) !== -1;
+            };
+
             $scope.getDisplayName = function (item) {
                 if ($scope.outputAllInfo) {
                     return item[$scope.displayProperty];

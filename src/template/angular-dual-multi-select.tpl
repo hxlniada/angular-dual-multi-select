@@ -28,7 +28,7 @@
             </div>
             <div class="pool">
                 <ul>
-                    <li ng-repeat="item in ngModel | filter:searchRight"> 
+                    <li ng-repeat="item in ngModel | filter:searchRight:compareName"> 
                         <a ng-click="deSelect(item)">
                             {{ getDisplayName(item) }}
                         </a>
