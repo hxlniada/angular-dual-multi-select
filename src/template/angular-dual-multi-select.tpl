@@ -15,7 +15,9 @@
                     output-all-info="outputAllInfo"
                     options="options"
                     hash-object="hashObject"
-                    filter-model="searchLeft"></tree-view>
+                    filter-model="searchLeft">
+                    <span>{{node[displayProperty]}}</span>
+                </tree-view>
             </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6"> 
