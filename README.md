@@ -5,7 +5,6 @@ bower install angular-dual-multi-select --save
 ```
 ### features
 * infinite levels
-* support promise data
 * check all/uncheck all
 
 ### dependencies
@@ -21,7 +20,13 @@ angular.module('yourModule', ['DualMultiSelect']);
 ```
 * in html
 ```html
-<dualmultiselect options="options" ng-model="value"></dualmultiselect>
+<dualmultiselect
+    options="options"
+    input-model=“inputModel”
+    recursion-check="Boolean"
+    output-all-info="Boolean"
+    output-duplicate="Boolean"
+    ng-model="value"></dualmultiselect>
 ```
 
 ### propertys
@@ -34,38 +39,28 @@ angular.module('yourModule', ['DualMultiSelect']);
     undefined // if nothing is checked
     ['1', '2'] // if '1' and '2' is checked
     ```
+* recursion-check optional [false]
+ 
+ whether check all/uncheck all
+
+* input-model required
+
+ source array
+
+* output-all-info optional [false]
+
+ whether output the valueProperty or output the full object
+
+* output-duplicate optional [false]
+
+ if all of the child node is checked, whether just output the parent node
+
 * options
 
 listed below
 
 ### options
 
-* items (array/promise) required
- 
- your data to display, such as
- 
-    ```javascript
-    // array
-    $scope.data = [
-        {id: '1', text: '1', children: [
-            {id: '1-1', text: '1-1', children: [
-            ...
-            ]},
-            {id: '1-2', text: '1-2}
-        ]},
-        {id: '2', text: '2'},
-        {id: '3', text: '3'}
-    ]
-    // promise
-    $scope.data = $http.get('dataLink').then(function(response) {
-        // if success
-        if (response.data.code === 200) {
-            return response.data.data;
-        }
-        ...
-        // if there is no return, will display nothing
-    });
-    ```
 * valueProperty optional
  
  the value property of your data
@@ -87,5 +82,4 @@ listed below
 * labelSelected: required
 
   selected text
-
 
