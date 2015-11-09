@@ -9,12 +9,10 @@ bower install angular-dual-multi-select --save
 
 ### dependencies
 * angular 1.3+
-* angular-recursion
 * angular-tree-view https://github.com/hxlniada/angular-tree-view
-* bootstrap.css
 
 ### usage
-* add it to your module dependence
+* app
 ```javascript
 angular.module('yourModule', ['DualMultiSelect']);
 ```
