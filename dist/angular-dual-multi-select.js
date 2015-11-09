@@ -104,7 +104,9 @@ angular.module('DualMultiSelect', ['TreeView'])
                 if ($scope.outputAllInfo) {
                     return item[$scope.displayProperty];
                 }
-                return $scope.hashObject[item][$scope.displayProperty];
+                if ($scope.hashObject[item]) {
+                    return $scope.hashObject[item][$scope.displayProperty];
+                }
             };
         },
         templateUrl: 'angular-dual-multi-select.tpl'
