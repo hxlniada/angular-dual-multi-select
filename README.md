@@ -32,13 +32,8 @@ angular.module('yourModule', ['DualMultiSelect']);
 ### propertys
 * ng-model required
  
- just normal ng-model, it's an array of valueProperty
- 
-    ```
-    // result maybe
-    undefined // if nothing is checked
-    ['1', '2'] // if '1' and '2' is checked
-    ```
+ just normal ng-model
+
 * recursion-check optional [false]
  
  whether check all/uncheck all
@@ -61,25 +56,16 @@ listed below
 
 ### options
 
-* valueProperty optional
+* valueProperty optional [id]
  
  the value property of your data
- 
-    ```
-    default: 'id'
-    ```
-* displayProperty  optional
+
+* displayProperty  optional [text]
  
  the property to display
- 
-    ```
-    default: 'text'
-    ```
-* labelAll: required
 
-  all text
-  
-* labelSelected: required
-
-  selected text
-
+* labelAll: optional [已选择的内容]
+* labelSelected: optional [待选择内容]
+* buttonCheckAll: optional [全选]
+* buttonDeselectAll: optional [全不选]
+* childrenProperty: optional [children]
