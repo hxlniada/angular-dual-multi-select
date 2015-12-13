@@ -1,6 +1,6 @@
 {
   "name": "angular-dual-multi-select",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "homepage": "https://github.com/hxlniada/angular-dual-multi-select",
   "authors": [
     "Xueliang Huang <862802759@qq.com>"
@@ -27,6 +27,6 @@
   ],
   "dependencies": {
     "angular": "~1.4.6",
-    "angular-tree-view": "~2.2.1"
+    "angular-tree-view": "~2.2.2"
   }
 }
